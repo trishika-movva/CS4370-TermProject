@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+{{> fragments/html_header}}
+
+<body>
+    {{> fragments/top_bar}}
+    <div class="container">
+        <h2>Applications</h2>
+        {{> fragments/error_message}}
+
+        <section class="card">
+            <h3>Add application</h3>
+            <form method="post" action="/applications" class="form-grid">
+                <div>
+                    <label>Company</label>
+                    <input name="companyName" type="text" required>
+                </div>
+                <div>
+                    <label>Industry</label>
+                    <input name="industry" type="text">
+                </div>
+                <div>
+                    <label>HQ Location</label>
+                    <input name="hqLocation" type="text">
+                </div>
+                <div>
+                    <label>Website</label>
+                    <input name="website" type="text">
+                </div>
+                <div>
+                    <label>Role title</label>
+                    <input name="title" type="text" required>
+                </div>
+                <div>
+                    <label>Location</label>
+                    <input name="location" type="text">
+                </div>
+                <div>
+                    <label>Employment type</label>
+                    <input name="employmentType" type="text" placeholder="Intern, Full-time">
+                </div>
+                <div>
+                    <label>Level</label>
+                    <input name="jobLevel" type="text" placeholder="SWE Intern, New Grad">
+                </div>
+                <div>
+                    <label>Season</label>
+                    <input name="season" type="text" placeholder="Summer 2026">
+                </div>
+                <div>
+                    <label>Applied date</label>
+                    <input name="appliedDate" type="date">
+                </div>
+                <div>
+                    <label>Status</label>
+                    <select name="status">
+                        {{#statusOptions}}
+                        <option value="{{.}}">{{.}}</option>
+                        {{/statusOptions}}
+                    </select>
+                </div>
+                <div>
+                    <label>Source</label>
+                    <input name="source" type="text" placeholder="LinkedIn, Referral">
+                </div>
+                <div>
+                    <label>Resume version</label>
+                    <input name="resumeVersion" type="text">
+                </div>
+                <div class="full-row">
+                    <label>Notes</label>
+                    <textarea name="notes" rows="3"></textarea>
+                </div>
+                <div class="full-row">
+                    <button type="submit" class="action-button">Save application</button>
+                </div>
+            </form>
+        </section>
+
+        <section>
+            <h3>Your applications</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Applied</th>
+                        <th>Season</th>
+                        <th>Source</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#applications}}
+                    <tr>
+                        <td><a href="/applications/{{applicationId}}">{{companyName}}</a></td>
+                        <td><a href="/applications/{{applicationId}}">{{jobTitle}}</a></td>
+                        <td>
+                            <form method="post" action="/applications/{{applicationId}}/status" class="inline-form">
+                                <select name="status">
+                                    <option value="{{status}}">Current: {{status}}</option>
+                                    {{#statusOptions}}
+                                    <option value="{{.}}">{{.}}</option>
+                                    {{/statusOptions}}
+                                </select>
+                                <input type="hidden" name="notes" value="{{notes}}">
+                                <button type="submit" class="action-button small">Update</button>
+                            </form>
+                        </td>
+                        <td>{{appliedDate}}</td>
+                        <td>{{season}}</td>
+                        <td>{{source}}</td>
+                        <td>
+                            <form method="post" action="/applications/{{applicationId}}/delete" class="inline-form">
+                                <button type="submit" class="danger-button small">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{/applications}}
+                    {{^applications}}
+                    <tr>
+                        <td colspan="7" class="muted center-align">No applications yet.</td>
+                    </tr>
+                    {{/applications}}
+                </tbody>
+            </table>
+        </section>
+    </div>
+    {{> fragments/footer}}
+</body>
+
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+{{> fragments/html_header}}
+
+<body>
+    {{> fragments/top_bar}}
+    <div class="container">
+        <a href="/applications" class="link">← Back to applications</a>
+        <h2>{{application.companyName}} — {{application.jobTitle}}</h2>
+        {{> fragments/error_message}}
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="muted">Status</div>
+                <form method="post" action="/applications/{{application.applicationId}}/status" class="inline-form">
+                    <select name="status">
+                        <option value="{{application.status}}">Current: {{application.status}}</option>
+                        {{#statusOptions}}
+                        <option value="{{.}}">{{.}}</option>
+                        {{/statusOptions}}
+                    </select>
+                    <input type="hidden" name="notes" value="{{application.notes}}">
+                    <button type="submit" class="action-button small">Update</button>
+                </form>
+            </div>
+            <div class="card">
+                <div class="muted">Applied</div>
+                <div class="big-number">{{application.appliedDate}}</div>
+                <div class="muted">Season: {{application.season}}</div>
+            </div>
+            <div class="card">
+                <div class="muted">Source</div>
+                <div class="big-number">{{application.source}}</div>
+                <div class="muted">Resume: {{application.resumeVersion}}</div>
+            </div>
+        </div>
+
+        <section class="card">
+            <h3>Interview rounds</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Round</th>
+                        <th>Scheduled</th>
+                        <th>Status</th>
+                        <th>Feedback</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#rounds}}
+                    <tr>
+                        <td>{{roundType}}</td>
+                        <td>{{scheduledDate}}</td>
+                        <td>{{status}}</td>
+                        <td>{{feedback}}</td>
+                    </tr>
+                    {{/rounds}}
+                    {{^rounds}}
+                    <tr><td colspan="4" class="muted center-align">No rounds yet.</td></tr>
+                    {{/rounds}}
+                </tbody>
+            </table>
+            <form method="post" action="/applications/{{application.applicationId}}/rounds" class="form-grid">
+                <div>
+                    <label>Round type</label>
+                    <input name="roundType" type="text" placeholder="Phone screen" required>
+                </div>
+                <div>
+                    <label>Scheduled date</label>
+                    <input name="scheduledDate" type="date">
+                </div>
+                <div>
+                    <label>Status</label>
+                    <input name="status" type="text" placeholder="Scheduled">
+                </div>
+                <div class="full-row">
+                    <label>Feedback/Notes</label>
+                    <textarea name="feedback" rows="2"></textarea>
+                </div>
+                <div class="full-row">
+                    <button type="submit" class="action-button">Add round</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card">
+            <h3>Offers</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Compensation</th>
+                        <th>Start Date</th>
+                        <th>Decision Deadline</th>
+                        <th>Status</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#offers}}
+                    <tr>
+                        <td>{{compensation}}</td>
+                        <td>{{startDate}}</td>
+                        <td>{{decisionDeadline}}</td>
+                        <td>{{status}}</td>
+                        <td>{{notes}}</td>
+                    </tr>
+                    {{/offers}}
+                    {{^offers}}
+                    <tr><td colspan="5" class="muted center-align">No offers yet.</td></tr>
+                    {{/offers}}
+                </tbody>
+            </table>
+            <form method="post" action="/applications/{{application.applicationId}}/offers" class="form-grid">
+                <div>
+                    <label>Compensation</label>
+                    <input name="compensation" type="text" placeholder="$110k base + $20k bonus">
+                </div>
+                <div>
+                    <label>Start date</label>
+                    <input name="startDate" type="date">
+                </div>
+                <div>
+                    <label>Decision deadline</label>
+                    <input name="decisionDeadline" type="date">
+                </div>
+                <div>
+                    <label>Status</label>
+                    <input name="status" type="text" placeholder="Pending">
+                </div>
+                <div class="full-row">
+                    <label>Notes</label>
+                    <textarea name="notes" rows="2"></textarea>
+                </div>
+                <div class="full-row">
+                    <button type="submit" class="action-button">Add offer</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    {{> fragments/footer}}
+</body>
+
+</html>

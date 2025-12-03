@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+{{> fragments/html_header}}
+
+<body>
+    {{> fragments/top_bar}}
+    <div class="container">
+        <h2>Companies</h2>
+        {{> fragments/error_message}}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Industry</th>
+                    <th>HQ</th>
+                    <th>Website</th>
+                    <th>Applications</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#companies}}
+                <tr>
+                    <td>{{name}}</td>
+                    <td>{{industry}}</td>
+                    <td>{{hqLocation}}</td>
+                    <td><a href="{{website}}" target="_blank">{{website}}</a></td>
+                    <td>{{applicationCount}}</td>
+                </tr>
+                {{/companies}}
+                {{^companies}}
+                <tr>
+                    <td colspan="5" class="muted center-align">No companies yet.</td>
+                </tr>
+                {{/companies}}
+            </tbody>
+        </table>
+    </div>
+    {{> fragments/footer}}
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+Performance notes / TODO
+------------------------
+- Baseline timings to collect (use EXPLAIN + runtime on 1000+ rows):
+  * Dashboard recent applications query (application join job_posting join company by user_id, ordered by last_updated DESC)
+  * Application detail with interview/offer joins by application_id + user_id
+  * Companies summary aggregation by user_id
+
+- Proposed indexes to test:
+  * application: INDEX idx_app_user_updated (user_id, last_updated DESC)
+  * interview_round: INDEX idx_ir_app_created (application_id, created_at DESC)
+  * offer: INDEX idx_offer_app_created (application_id, created_at DESC)
+  * job_posting: INDEX idx_job_company (company_id)
+
+- Record before/after EXPLAIN output and timing once you bulk-load 1000+ applications/job_postings. Remove/adjust indexes that are redundant with primary keys.
