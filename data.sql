@@ -1,9 +1,7 @@
--- ==============================================
--- ApplicationTracker seed + example DML
--- ==============================================
+-- ApplicationTracker example DML
 USE application_tracker;
 
--- Seed a demo user (password: password)
+-- Demo user (password: password)
 INSERT INTO user (username, email, password_hash)
 VALUES ('demo', 'demo@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOHiI84AHKp8cG3hNZEd0/ii16r1d92PO');
 
