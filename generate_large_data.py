@@ -61,13 +61,17 @@ def main():
 
             if not location:
                 location = "Unknown"
+            
+            # Truncate location to 255 characters to match database column size
+            location = location[:255] if len(location) > 255 else location
 
             if company_name not in company_map:
                 company_id = next_company_id
                 company_map[company_name] = company_id
                 next_company_id += 1
                 industry = "Unknown"
-                hq_location = location
+                # Truncate hq_location to 255 characters to match database column size
+                hq_location = location[:255] if len(location) > 255 else location
                 website = None
                 company_rows.append((company_id, company_name, industry, hq_location, website))
             else:
