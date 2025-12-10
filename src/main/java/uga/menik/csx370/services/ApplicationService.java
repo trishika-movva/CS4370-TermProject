@@ -354,10 +354,17 @@ public class ApplicationService {
         final String insert = "INSERT INTO company (name, industry, hq_location, website) VALUES (?, ?, ?, ?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setString(1, name);
-            stmt.setString(2, industry);
-            stmt.setString(3, hqLocation);
-            stmt.setString(4, website);
+            String nameSafe = name != null && name.length() > 255 ? name.substring(0, 255) : name;
+            String industrySafe = industry != null && industry.length() > 255 ? industry.substring(0, 255) : industry;
+            String hqSafe = hqLocation != null && hqLocation.length() > 255 ? hqLocation.substring(0, 255) : hqLocation;
+            stmt.setString(1, nameSafe);
+            stmt.setString(2, industrySafe);
+            stmt.setString(3, hqSafe);
+            String safeWebsite = website == null ? null : website.trim();
+            if (safeWebsite != null && safeWebsite.length() > 255) {
+                safeWebsite = safeWebsite.substring(0, 255);
+            }
+            stmt.setString(4, safeWebsite);
             stmt.executeUpdate();
             try (ResultSet keys = stmt.getGeneratedKeys()) {
                 if (keys.next()) {

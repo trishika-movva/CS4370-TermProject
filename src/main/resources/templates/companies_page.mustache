@@ -25,7 +25,14 @@
                         <td>{{name}}</td>
                         <td>{{industry}}</td>
                         <td>{{hqLocation}}</td>
-                        <td><a href="{{website}}" target="_blank">{{website}}</a></td>
+                        <td>
+                            {{#website}}
+                            <a href="{{website}}" target="_blank">{{website}}</a>
+                            {{/website}}
+                            {{^website}}
+                            <span class="muted">N/A</span>
+                            {{/website}}
+                        </td>
                         <td>{{applicationCount}}</td>
                     </tr>
                     {{/companies}}

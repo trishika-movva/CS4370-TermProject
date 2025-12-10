@@ -2,7 +2,7 @@ import csv
 import datetime
 import random
 
-CSV_PATH = "data_job_posts.csv"
+CSV_PATH = "data job posts.csv"
 OUT_SQL = "data_large.sql"
 MAX_JOBS = 1500
 COMPANY_ID_START = 1001

@@ -47,12 +47,16 @@ public class CompanyService {
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
+                    String website = rs.getString("website");
+                    if (website == null) {
+                        website = "";
+                    }
                     companies.add(new Company(
                             rs.getInt("company_id"),
                             rs.getString("name"),
                             rs.getString("industry"),
                             rs.getString("hq_location"),
-                            rs.getString("website"),
+                            website,
                             rs.getInt("application_count")));
                 }
             }
