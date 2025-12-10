@@ -1,2 +1,5 @@
 security.txt file that describes the approach you used to securely store user passwords.
 
+During signup, the raw password is hashed using BCryptPasswordEncoder from the spring-security-crypto library and the resulting hash is stored in the password_hash column of the user table.
+During login, the application retrieves the stored hash and uses BCryptPasswordEncoder.matches() to verify the submitted password. 
+The plaintext password is not stored in the database.

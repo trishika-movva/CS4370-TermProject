@@ -8,49 +8,55 @@
         <h2>Hello, {{username}}!</h2>
         <p class="muted">Welcome to ApplicationTracker.</p>
 
-        <div class="card-grid">
+        <div class="section">
             <div class="card">
-                <div class="muted">Total applications</div>
-                <div class="big-number">{{totalApplications}}</div>
-            </div>
-            <div class="card">
-                <div class="muted">Open applications</div>
-                <div class="big-number">{{openApplications}}</div>
-            </div>
-            <div class="card">
-                <div class="muted">Companies</div>
-                <div class="big-number">{{companyCount}}</div>
+                <div class="card-grid">
+                    <div>
+                        <div class="muted">Total applications</div>
+                        <div class="big-number">{{totalApplications}}</div>
+                    </div>
+                    <div>
+                        <div class="muted">Open applications</div>
+                        <div class="big-number">{{openApplications}}</div>
+                    </div>
+                    <div>
+                        <div class="muted">Companies</div>
+                        <div class="big-number">{{companyCount}}</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <h3>Recent updates</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Company</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Applied</th>
-                    <th>Updated</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#recentApplications}}
-                <tr>
-                    <td>{{companyName}}</td>
-                    <td>{{jobTitle}}</td>
-                    <td>{{status}}</td>
-                    <td>{{appliedDate}}</td>
-                    <td>{{lastUpdated}}</td>
-                </tr>
-                {{/recentApplications}}
-                {{^recentApplications}}
-                <tr>
-                    <td colspan="5" class="muted center-align">No applications yet.</td>
-                </tr>
-                {{/recentApplications}}
-            </tbody>
-        </table>
+        <div class="section card">
+            <h3>Recent updates</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Applied</th>
+                        <th>Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#recentApplications}}
+                    <tr>
+                        <td>{{companyName}}</td>
+                        <td>{{jobTitle}}</td>
+                        <td><span class="badge badge-{{status}}">{{status}}</span></td>
+                        <td>{{appliedDate}}</td>
+                        <td>{{lastUpdated}}</td>
+                    </tr>
+                    {{/recentApplications}}
+                    {{^recentApplications}}
+                    <tr>
+                        <td colspan="5" class="muted center-align">No applications yet.</td>
+                    </tr>
+                    {{/recentApplications}}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     {{> fragments/footer}}

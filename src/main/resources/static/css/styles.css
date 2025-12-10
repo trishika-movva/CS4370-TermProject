@@ -6,8 +6,9 @@ This is a project developed by Dr. Menik to give the students an opportunity to 
 
 :root{
     --normal-text-color: #14171a;
-    --frame-color: #98b1c6;
-    --box-color: #fff;
+    --frame-color: #d8cff5;
+    --box-color: #f4f0ff;
+    --card-color: #ede7ff;
     --action-item-color: #657786;
     --highlight-color: #1da1f2;
 }
@@ -17,7 +18,7 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background-color: var(--box-color);
+    background-color: #f4f0ff;
 }
 nav {
     background: var(--box-color);
@@ -87,9 +88,10 @@ nav a:hover {
 .container {
     max-width: 1100px;
     width: 94%;
-    margin: 24pt auto;
+    margin: 24pt auto 40pt auto;
     background-color: var(--box-color);
-    border-radius: 4pt;
+    border-radius: 6pt;
+    padding: 18pt 18pt 8pt 18pt;
 }
 .container.narrow {
     max-width: 300pt;
@@ -215,4 +217,68 @@ nav a:hover {
 }
 .link {
     margin-left: 16pt;
+}
+
+/* Cards and layout tweaks */
+.section {
+    margin-bottom: 18pt;
+}
+.card {
+    border: 1px solid var(--frame-color);
+    border-radius: 8pt;
+    padding: 14pt;
+    margin-bottom: 12pt;
+    background: var(--card-color);
+}
+
+/* Tables */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table th, .table td {
+    border: 1px solid #e4dcff;
+    padding: 10pt;
+    text-align: left;
+}
+.table th {
+    background: #eee6ff;
+    color: var(--action-item-color);
+    font-size: 10pt;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+.table tr:hover {
+    background: #f1e9ff;
+}
+
+/* Badges for status */
+.badge {
+    display: inline-block;
+    padding: 4pt 8pt;
+    border-radius: 999px;
+    font-size: 10pt;
+    font-weight: bold;
+    color: #fff;
+}
+.badge-applied { background: #4b5563; }
+.badge-oa { background: #6366f1; }
+.badge-interviewing { background: #1d4ed8; }
+.badge-offer { background: #10b981; }
+.badge-rejected { background: #dc2626; }
+.badge-Applied { background: #4b5563; }
+.badge-OA { background: #6366f1; }
+.badge-Interviewing { background: #1d4ed8; }
+.badge-Offer { background: #10b981; }
+.badge-Rejected { background: #dc2626; }
+.status-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6pt;
+}
+.actions-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 6pt;
 }

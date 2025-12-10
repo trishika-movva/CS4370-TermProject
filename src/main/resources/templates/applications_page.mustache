@@ -8,7 +8,7 @@
         <h2>Applications</h2>
         {{> fragments/error_message}}
 
-        <section class="card">
+        <section class="card section">
             <h3>Add application</h3>
             <form method="post" action="/applications" class="form-grid">
                 <div>
@@ -77,7 +77,7 @@
             </form>
         </section>
 
-        <section>
+        <section class="card section">
             <h3>Your applications</h3>
             <table class="table">
                 <thead>
@@ -96,7 +96,7 @@
                     <tr>
                         <td><a href="/applications/{{applicationId}}">{{companyName}}</a></td>
                         <td><a href="/applications/{{applicationId}}">{{jobTitle}}</a></td>
-                        <td>
+                        <td class="status-cell">
                             <form method="post" action="/applications/{{applicationId}}/status" class="inline-form">
                                 <select name="status">
                                     <option value="{{status}}">Current: {{status}}</option>
@@ -107,11 +107,12 @@
                                 <input type="hidden" name="notes" value="{{notes}}">
                                 <button type="submit" class="action-button small">Update</button>
                             </form>
+                            <div><span class="badge badge-{{status}}">{{status}}</span></div>
                         </td>
                         <td>{{appliedDate}}</td>
                         <td>{{season}}</td>
                         <td>{{source}}</td>
-                        <td>
+                        <td class="actions-cell">
                             <form method="post" action="/applications/{{applicationId}}/delete" class="inline-form">
                                 <button type="submit" class="danger-button small">Delete</button>
                             </form>

@@ -9,10 +9,11 @@
         <h2>{{application.companyName}} — {{application.jobTitle}}</h2>
         {{> fragments/error_message}}
 
-        <div class="card-grid">
+        <div class="card-grid section">
             <div class="card">
                 <div class="muted">Status</div>
-                <form method="post" action="/applications/{{application.applicationId}}/status" class="inline-form">
+                <div><span class="badge badge-{{application.status}}">{{application.status}}</span></div>
+                <form method="post" action="/applications/{{application.applicationId}}/status" class="inline-form" style="margin-top:8pt;">
                     <select name="status">
                         <option value="{{application.status}}">Current: {{application.status}}</option>
                         {{#statusOptions}}
@@ -35,7 +36,7 @@
             </div>
         </div>
 
-        <section class="card">
+        <section class="card section">
             <h3>Interview rounds</h3>
             <table class="table">
                 <thead>
@@ -51,7 +52,7 @@
                     <tr>
                         <td>{{roundType}}</td>
                         <td>{{scheduledDate}}</td>
-                        <td>{{status}}</td>
+                        <td><span class="badge badge-{{status}}">{{status}}</span></td>
                         <td>{{feedback}}</td>
                     </tr>
                     {{/rounds}}
@@ -83,7 +84,7 @@
             </form>
         </section>
 
-        <section class="card">
+        <section class="card section">
             <h3>Offers</h3>
             <table class="table">
                 <thead>
@@ -101,7 +102,7 @@
                         <td>{{compensation}}</td>
                         <td>{{startDate}}</td>
                         <td>{{decisionDeadline}}</td>
-                        <td>{{status}}</td>
+                        <td><span class="badge badge-{{status}}">{{status}}</span></td>
                         <td>{{notes}}</td>
                     </tr>
                     {{/offers}}
