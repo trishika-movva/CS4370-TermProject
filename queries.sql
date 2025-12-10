@@ -110,3 +110,29 @@ SELECT c.company_id, c.name, c.industry, c.hq_location, c.website, COUNT(a.appli
   LEFT JOIN application a ON jp.job_id = a.job_id AND a.user_id = ?
  GROUP BY c.company_id, c.name, c.industry, c.hq_location, c.website
  ORDER BY application_count DESC, c.name ASC;
+
+-- Status summary counts
+-- URL: /reports (GET)
+SELECT COALESCE(status, 'Unknown') AS status, COUNT(*) AS total FROM application WHERE user_id = ? GROUP BY COALESCE(status, 'Unknown');
+
+-- Upcoming interviews with job/company join
+-- URL: /reports (GET)
+SELECT ir.interview_id, ir.application_id, ir.round_type, ir.status, ir.scheduled_date, c.name, jp.title
+  FROM interview_round ir
+  JOIN application a ON ir.application_id = a.application_id
+  JOIN job_posting jp ON a.job_id = jp.job_id
+  JOIN company c ON jp.company_id = c.company_id
+ WHERE a.user_id = ? AND ir.scheduled_date IS NOT NULL
+ ORDER BY ir.scheduled_date ASC
+ LIMIT ?;
+
+-- Recent offers with job/company join
+-- URL: /reports (GET)
+SELECT o.offer_id, o.application_id, o.compensation, o.decision_deadline, o.status, c.name, jp.title
+  FROM offer o
+  JOIN application a ON o.application_id = a.application_id
+  JOIN job_posting jp ON a.job_id = jp.job_id
+  JOIN company c ON jp.company_id = c.company_id
+ WHERE a.user_id = ?
+ ORDER BY o.created_at DESC
+ LIMIT ?;

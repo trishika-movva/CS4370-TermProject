@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+{{> fragments/html_header}}
+
+<body>
+    {{> fragments/top_bar}}
+    <div class="container">
+        <h2>Reports</h2>
+        {{> fragments/error_message}}
+
+        <div class="card section">
+            <h3>Status summary</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#statusSummary}}
+                    <tr>
+                        <td><span class="badge badge-{{status}}">{{status}}</span></td>
+                        <td>{{count}}</td>
+                    </tr>
+                    {{/statusSummary}}
+                    {{^statusSummary}}
+                    <tr><td colspan="2" class="muted center-align">No data.</td></tr>
+                    {{/statusSummary}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card section">
+            <h3>Upcoming interviews</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Role</th>
+                        <th>Round</th>
+                        <th>Status</th>
+                        <th>Scheduled</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#upcomingInterviews}}
+                    <tr>
+                        <td>{{companyName}}</td>
+                        <td>{{jobTitle}}</td>
+                        <td>{{roundType}}</td>
+                        <td><span class="badge badge-{{status}}">{{status}}</span></td>
+                        <td>{{scheduledDate}}</td>
+                    </tr>
+                    {{/upcomingInterviews}}
+                    {{^upcomingInterviews}}
+                    <tr><td colspan="5" class="muted center-align">No interviews scheduled.</td></tr>
+                    {{/upcomingInterviews}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card section">
+            <h3>Recent offers</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Compensation</th>
+                        <th>Decision Deadline</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#recentOffers}}
+                    <tr>
+                        <td>{{companyName}}</td>
+                        <td>{{jobTitle}}</td>
+                        <td><span class="badge badge-{{status}}">{{status}}</span></td>
+                        <td>{{compensation}}</td>
+                        <td>{{decisionDeadline}}</td>
+                    </tr>
+                    {{/recentOffers}}
+                    {{^recentOffers}}
+                    <tr><td colspan="5" class="muted center-align">No offers yet.</td></tr>
+                    {{/recentOffers}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{> fragments/footer}}
+</body>
+
+</html>

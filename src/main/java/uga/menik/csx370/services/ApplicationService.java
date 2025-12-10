@@ -19,6 +19,9 @@ import org.springframework.stereotype.Service;
 import uga.menik.csx370.models.ApplicationView;
 import uga.menik.csx370.models.InterviewRound;
 import uga.menik.csx370.models.Offer;
+import uga.menik.csx370.models.InterviewItem;
+import uga.menik.csx370.models.OfferItem;
+import uga.menik.csx370.models.StatusSummary;
 
 /**
  * Handles CRUD operations for applications using raw JDBC.
@@ -31,6 +34,99 @@ public class ApplicationService {
     @Autowired
     public ApplicationService(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public List<StatusSummary> getStatusSummary(int userId) throws SQLException {
+        final String sql = "SELECT COALESCE(status, 'Unknown') AS status, COUNT(*) AS total FROM application WHERE user_id = ? GROUP BY COALESCE(status, 'Unknown')";
+        List<StatusSummary> summaries = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    summaries.add(new StatusSummary(rs.getString("status"), rs.getInt("total")));
+                }
+            }
+        }
+        return summaries;
+    }
+
+    public List<InterviewItem> getUpcomingInterviews(int userId, int limit) throws SQLException {
+        final String sql = """
+                SELECT ir.interview_id,
+                       ir.application_id,
+                       ir.round_type,
+                       ir.status AS interview_status,
+                       ir.scheduled_date,
+                       c.name AS company_name,
+                       jp.title
+                  FROM interview_round ir
+                  JOIN application a ON ir.application_id = a.application_id
+                  JOIN job_posting jp ON a.job_id = jp.job_id
+                  JOIN company c ON jp.company_id = c.company_id
+                 WHERE a.user_id = ? AND ir.scheduled_date IS NOT NULL
+                 ORDER BY ir.scheduled_date ASC
+                 LIMIT ?
+                """;
+        List<InterviewItem> items = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, limit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    items.add(new InterviewItem(
+                            rs.getInt("interview_id"),
+                            rs.getInt("application_id"),
+                            rs.getString("company_name"),
+                            rs.getString("title"),
+                            rs.getString("round_type"),
+                            rs.getString("interview_status"),
+                            rs.getDate("scheduled_date")
+                    ));
+                }
+            }
+        }
+        return items;
+    }
+
+    public List<OfferItem> getRecentOffers(int userId, int limit) throws SQLException {
+        final String sql = """
+                SELECT o.offer_id,
+                       o.application_id,
+                       o.compensation,
+                       o.decision_deadline,
+                       o.status AS offer_status,
+                       c.name AS company_name,
+                       jp.title
+                  FROM offer o
+                  JOIN application a ON o.application_id = a.application_id
+                  JOIN job_posting jp ON a.job_id = jp.job_id
+                  JOIN company c ON jp.company_id = c.company_id
+                 WHERE a.user_id = ?
+                 ORDER BY o.created_at DESC
+                 LIMIT ?
+                """;
+        List<OfferItem> items = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, limit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    items.add(new OfferItem(
+                            rs.getInt("offer_id"),
+                            rs.getInt("application_id"),
+                            rs.getString("company_name"),
+                            rs.getString("title"),
+                            rs.getString("offer_status"),
+                            rs.getString("compensation"),
+                            rs.getDate("decision_deadline")
+                    ));
+                }
+            }
+        }
+        return items;
     }
 
     public List<ApplicationView> getApplicationsForUser(int userId) throws SQLException {

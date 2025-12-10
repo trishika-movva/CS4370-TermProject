@@ -6,5 +6,4 @@ Link: https://www.kaggle.com/datasets/madhab/jobposts?resource=download
 
 Description: We used a Python script (generate_large_data.py) to process the CSV file from Kaggle and generate SQL INSERT statements.
 What was generated: 681 companies and 1500 job postings
-Output file: data_large.sql
-
+Output file: data.sql
