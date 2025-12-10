@@ -1,5 +1,20 @@
-perf.txt file that lists the statements you used to create indexes:
+Indexes created:
+1) application: CREATE INDEX idx_app_user_updated ON application(user_id, last_updated);
+   Affects: dashboard recent applications query (join app/job/company by user_id ordered by last_updated), reports status summary reads.
 
-This file should also include the queries that were affected by the indexes.
+2) interview_round: CREATE INDEX idx_ir_app_sched ON interview_round(application_id, scheduled_date);
+   Affects: reports upcoming interviews (application_id join, ordered by scheduled_date), application detail rounds list.
 
-Under each query provide time consumption before and after adding the index. This should be done after populating the database with data.
+3) offer: CREATE INDEX idx_offer_app_created ON offer(application_id, created_at);
+   Affects: reports recent offers and application detail offers list.
+
+Measured timings:
+- Dashboard recent applications:
+  Before: actual time=0.639..0.727 ms
+  After: actual time=0.0837..0.149 ms
+- Upcoming interviews:
+  Before: actual time=0.114..0.117 ms
+  After: actual time=0.056..0.059 ms 
+- Recent offers:
+  Before: actual time=0.0728..0.0728 ms
+  After: actual time=0.0305..0.0305 ms

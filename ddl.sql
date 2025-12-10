@@ -76,3 +76,8 @@ CREATE TABLE IF NOT EXISTS offer (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (application_id) REFERENCES application(application_id) ON DELETE CASCADE
 );
+
+-- Indexes
+CREATE INDEX idx_app_user_updated ON application(user_id, last_updated);
+CREATE INDEX idx_ir_app_sched ON interview_round(application_id, scheduled_date);
+CREATE INDEX idx_offer_app_created ON offer(application_id, created_at);

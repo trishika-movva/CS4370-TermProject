@@ -4,7 +4,6 @@ USE application_tracker;
 -- Auth login (fetching user for authentication)
 -- URL: /login (POST)
 SELECT user_id, username, email, password_hash, created_at FROM user WHERE username = ?;
-
 -- Auth signup (creating new user)
 -- URL: /signup (POST)
 INSERT INTO user (username, email, password_hash) VALUES (?, ?, ?);
